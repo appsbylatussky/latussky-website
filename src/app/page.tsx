@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import Services from "@/components/Services";
 import Portfolio from "@/components/Portfolio";
+import About from "@/components/About";
 import Stats from "@/components/Stats";
 import Process from "@/components/Process";
 import Testimonials from "@/components/Testimonials";
@@ -17,6 +18,7 @@ export default function Home() {
       <Marquee />
       <Services />
       <Portfolio />
+      <About />
       <Stats />
       <Process />
       <Testimonials />

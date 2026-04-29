@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Phone, Mail } from "lucide-react";
 
 const contactInfo = [
-  { Icon: Phone, label: "Phone", value: "(604) 365-2049" },
-  { Icon: Mail, label: "Email", value: "info@latussky.com" },
+  { Icon: Phone, label: "Phone", value: "(604) 365-2049", href: "tel:+16043652049" },
+  { Icon: Mail, label: "Email", value: "info@latussky.com", href: "mailto:info@latussky.com" },
 ];
 
 const projectTypes = [
@@ -34,6 +34,17 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const subject = `New inquiry from ${form.name}${form.projectType ? ` — ${form.projectType}` : ""}`;
+    const body = [
+      `Name: ${form.name}`,
+      `Email: ${form.email}`,
+      form.phone ? `Phone: ${form.phone}` : null,
+      form.projectType ? `Project type: ${form.projectType}` : null,
+      "",
+      "Message:",
+      form.message,
+    ].filter(Boolean).join("\n");
+    window.location.href = `mailto:info@latussky.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSubmitted(true);
   };
 
@@ -109,14 +120,25 @@ export default function Contact() {
             Ready to start?
           </h3>
 
-          {contactInfo.map(({ Icon, label, value }) => (
-            <div
+          {contactInfo.map(({ Icon, label, value, href }) => (
+            <a
               key={label}
+              href={href}
               style={{
                 display: "flex",
                 gap: "16px",
                 alignItems: "flex-start",
                 marginBottom: "24px",
+                textDecoration: "none",
+                transition: "transform 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                const v = e.currentTarget.querySelector<HTMLDivElement>("[data-value]");
+                if (v) v.style.color = "#fa145a";
+              }}
+              onMouseLeave={(e) => {
+                const v = e.currentTarget.querySelector<HTMLDivElement>("[data-value]");
+                if (v) v.style.color = "#fff";
               }}
             >
               <div
@@ -147,28 +169,11 @@ export default function Contact() {
                 >
                   {label}
                 </div>
-                <div style={{ color: "#fff", fontWeight: 500, fontSize: "17px" }}>{value}</div>
+                <div data-value style={{ color: "#fff", fontWeight: 500, fontSize: "17px", transition: "color 0.2s ease" }}>{value}</div>
               </div>
-            </div>
+            </a>
           ))}
 
-          <button
-            style={{
-              background: "none",
-              border: "none",
-              color: "#fa145a",
-              fontSize: "14px",
-              fontWeight: 500,
-              cursor: "pointer",
-              padding: 0,
-              marginTop: "16px",
-              transition: "color 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#fa145a")}
-          >
-            Or book a free 30-min strategy call →
-          </button>
         </div>
 
         {/* Right — Form */}
@@ -335,7 +340,7 @@ export default function Contact() {
                 onMouseEnter={(e) => (e.currentTarget.style.background = "#d4104c")}
                 onMouseLeave={(e) => (e.currentTarget.style.background = "#fa145a")}
               >
-                Send Message — We Reply Within 24hrs
+                Send Message
               </button>
             </form>
           )}

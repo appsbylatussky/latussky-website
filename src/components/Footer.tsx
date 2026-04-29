@@ -154,7 +154,7 @@ export default function Footer() {
           }}
         >
           <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "13px", margin: 0 }}>
-            &copy; 2024 Latussky Webmedia Inc. All rights reserved.
+            &copy; 2026 Latussky Webmedia Inc. All rights reserved.
           </p>
         </div>
       </div>
